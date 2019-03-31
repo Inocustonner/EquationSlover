@@ -60,3 +60,30 @@ Node* CreateNode(Node* parent, ObjectType type, int object)
 	newnode->right = (void*)0;
 	return newnode;
 }
+
+int isNumber(const char* str, int size)
+{
+	int i = 0;
+	if ('-' == str[0]) ++i;
+	for (; i < size; ++i)
+	{
+		if (ISNUM(str[i]) ^ 1)/* if (!ISNUM(str[i])) */
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int isVar(const char* str, int size)
+{
+	int i = 0;
+	for (; i < size; ++i)
+	{
+		if (ISALPHA(str[i]) ^ 1)/* if (!ISALPHA(str[i])) */
+		{
+			return 0;
+		}
+	}
+	return 1;
+}

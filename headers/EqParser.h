@@ -6,9 +6,14 @@ Implementation file: EqParser.c
 #ifndef _EQ_PARSER_H_
 #pragma once
 #define _EQ_PARSER_H_
-#define ISALNUM(x) (((0x30 <= x) & (x <= 0x39))\
-					|((0x41 <= x) & (x <= 0x5A))\
-					|((0x61 <= x) & (x <= 0x7A)))
+#define ISALNUM(x) (((0x30 <= (x)) & ((x) <= 0x39))\
+					|((0x41 <= (x)) & ((x) <= 0x5A))\
+					|((0x61 <= (x)) & ((x) <= 0x7A)))
+
+#define ISNUM(x) ((0x30 <= (x)) & ((x) <= 0x39))
+
+#define ISALPHA(x) (((0x41 <= (x)) & ((x) <= 0x5A))\
+					|((0x61 <= (x)) & ((x) <= 0x7A)))
 
 typedef enum
 {
@@ -41,4 +46,6 @@ inline int nabs(int x);
 int findCenter(char* eq);
 /* the function response for creating new nodes */
 Node* CreateNode(Node* parent, ObjectType type, int object);
+int isNumber(const char* str, int size);
+int isVar(const char* str, int size);
 #endif
