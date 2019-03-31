@@ -1,5 +1,4 @@
 #include "../headers/EqParser.h"
-#include <stdio.h>
 inline int nabs(int x)
 {
 	return (~x + 1) * (x < 0) + x * (x >= 0);/* if x < 0 abs it else return as it was */
@@ -49,4 +48,14 @@ int findCenter(char* eq)
 		}
 	}
 	return result;
+}
+
+Node* CreateNode(ObjectType type, int object)
+{
+	Node* newnode = malloc(sizeof(Node));
+	newnode->type = type;
+	newnode->object.num = object;
+	newnode->left = (void*)0;
+	newnode->right = (void*)0;
+	return newnode;
 }

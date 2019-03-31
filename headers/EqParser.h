@@ -12,24 +12,32 @@ Implementation file: EqParser.c
 
 typedef enum
 {
-	NUM,
-	OPERATOR,
-	VARIABLE
+	NUM,/* number */
+	OPR,/* math operator */
+	VAR /* variable */
 }ObjectType;
+
+typedef struct
+{
+	union
+	{
+		char sym;/* contains either math sign or var */
+		int num;/* contains number, also all assignments passing through this var */
+	};
+}Object;
 
 typedef struct Node
 {
-	ObjectType type;
 	struct Node* left;
 	struct Node* right;
-	union
-	{
-		char sign;
-		int num;
-	};
+	ObjectType type;
+	Object object;
 }Node;
+
 /* abs for int */
 inline int nabs(int x);
 /* the function below finds a center of an equation */
 int findCenter(char* eq);
+/* the function response for creating new nodes */
+Node* CreateNode(ObjectType type, int object);
 #endif
