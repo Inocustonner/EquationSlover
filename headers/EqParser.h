@@ -28,10 +28,11 @@ typedef struct
 
 typedef struct Node
 {
-	struct Node* left;
-	struct Node* right;
-	ObjectType type;
-	Object object;
+	struct Node* head;/* previous node */
+	struct Node* left;/* child left node */
+	struct Node* right;/* child right node*/
+	ObjectType type;/* contains type of the object */
+	Object object;/* containst value */
 }Node;
 
 /* abs for int */
@@ -39,5 +40,5 @@ inline int nabs(int x);
 /* the function below finds a center of an equation */
 int findCenter(char* eq);
 /* the function response for creating new nodes */
-Node* CreateNode(ObjectType type, int object);
+Node* CreateNode(Node* parent, ObjectType type, int object);
 #endif

@@ -50,9 +50,10 @@ int findCenter(char* eq)
 	return result;
 }
 
-Node* CreateNode(ObjectType type, int object)
+Node* CreateNode(Node* parent, ObjectType type, int object)
 {
 	Node* newnode = malloc(sizeof(Node));
+	newnode->head = parent;
 	newnode->type = type;
 	newnode->object.num = object;
 	newnode->left = (void*)0;
