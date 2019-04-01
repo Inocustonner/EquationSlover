@@ -32,16 +32,6 @@ int FindCenter(const char* eq, int size)
 	int result = -1;
 	int center = size / 2;
 	int i = 1;
-	/* parentheses check:
-	if whole equation placed in parentheses then skip them */
-	if (('(' == eq[i - 1]) & (')' == eq[size - 1]))
-	{
-		if (CheckParentheses(eq + 1, size - 2))
-		{
-			inParenthese = -1;
-			size -= 1;
-		}
-	}
 	for (; i < size; ++i)
 	{
 		while (inParenthese += (eq[i - 1] == '('))/* if we're in parentheses than skip it but only if eq not starts with them */
@@ -136,6 +126,16 @@ inline Node* CreateNodeFromVal(const char* str, int size)
 
 Node* ParseEq(Node* head, const char* eq, int size)
 {
+	/* parentheses check:
+	if whole equation placed in parentheses then skip them */
+	if (('(' == eq[0]) & (')' == eq[size - 1]))
+	{
+		if (CheckParentheses(eq + 1, size - 2))
+		{
+			eq += 1;
+			size -= 2;
+		}
+	}
 	print(eq, size);
 	printf("\n");
 	int divisor = FindCenter(eq, size);
