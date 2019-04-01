@@ -42,10 +42,16 @@ typedef struct Node
 
 /* abs for int */
 inline int nabs(int x);
+/* the fuction checks is all parentheses complete */
+int CheckParentheses(const char* str, int size);
 /* the function below finds a center of an equation */
-int findCenter(char* eq);
+int FindCenter(const char* eq, int size);
 /* the function response for creating new nodes */
 Node* CreateNode(Node* parent, ObjectType type, int object);
 int isNumber(const char* str, int size);
-int isVar(const char* str, int size);
+/* string to int */
+int sti(const char* str, int size);
+/* the function below returns parsed equation in binary tree format */
+Node* ParseEq(Node* head, const char* eq, int size);
+void DestroyNode(Node* root);
 #endif
