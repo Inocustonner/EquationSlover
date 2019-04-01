@@ -1,16 +1,8 @@
 #include "../headers/EqParser.h"
-#include <stdio.h>
 inline int nabs(int x)
 {
 	return (~x + 1) * (x < 0) + x * (x >= 0);/* if x < 0 abs it else return as it was */
 }
-
-void print(const char* str, int size)
-{
-	for (int i = 0; i < size; ++i)
-		printf("%c", str[i]);
-}
-
 
 int CheckParentheses(const char* str, int size)
 {
@@ -102,12 +94,12 @@ int sti(const char* str, int size)
 	int ret = 0;
 	int i = size - 1;
 	int pos = 1;
-	for (; i >= 0; --i)
+	for (; i >= ('-' == str[0]); --i)/* if number less than zero don't process minuse here */
 	{
-		ret += pos * (int)(str[i] - 0x30) * (ISNUM(str[i]));
+		ret += pos * (int)(str[i] - 0x30);
 		pos *= 10;
 	}
-	ret -= ret * 2 * ('-' == str[i + 1]);
+	ret -= ret * 2 * ('-' == str[0]);
 	return ret;
 }
 
@@ -136,14 +128,11 @@ Node* ParseEq(Node* head, const char* eq, int size)
 			size -= 2;
 		}
 	}
-	print(eq, size);
-	printf("\n");
 	int divisor = FindCenter(eq, size);
 	if (-1 == divisor)
 	{
 		return CreateNodeFromVal(eq, size);
 	}
-	printf(" divisor : %c\n", eq[divisor]);
 	Node* node = CreateNode(head, OPR, eq[divisor]);
 	node->left = ParseEq(node, eq, divisor);
 	node->right = ParseEq(node, eq + divisor + 1, size - divisor - 1);
@@ -152,11 +141,18 @@ Node* ParseEq(Node* head, const char* eq, int size)
 
 void DestroyNode(Node* root)
 {
-	if (root->left)
+	if ((void*)0 == root)
+	{
+		return;
+	}
+	if ((void*)0 != root->left)
+	{
 		DestroyNode(root->left);
-	if (root->right)
+
+	}
+	if ((void*)0 != root->right)
+	{
 		DestroyNode(root->right);
-	printf("%c ", root->object.sym);
-	printf("%d\n", root->object.sym);
+	}
 	free(root);
 }

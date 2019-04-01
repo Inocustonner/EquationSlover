@@ -1,6 +1,6 @@
 /*
 File : EqParser.h 
-This header file contains functions and constants for parsing math equations 
+Description : This header file contains functions and constants for parsing math equations
 Implementation file: EqParser.c
 */
 #ifndef _EQ_PARSER_H_
@@ -33,11 +33,11 @@ typedef struct
 
 typedef struct Node
 {
+	ObjectType type;/* contains type of the object */
+	Object object;/* containst value */
 	struct Node* head;/* previous node */
 	struct Node* left;/* child left node */
 	struct Node* right;/* child right node*/
-	ObjectType type;/* contains type of the object */
-	Object object;/* containst value */
 }Node;
 
 /* abs for int */
