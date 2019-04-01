@@ -1,9 +1,4 @@
 #include "../headers/EqParser.h"
-inline int nabs(int x)
-{
-	return (~x + 1) * (x < 0) + x * (x >= 0);/* if x < 0 abs it else return as it was */
-}
-
 int CheckParentheses(const char* str, int size)
 {
 	char bool = 0;
@@ -16,13 +11,18 @@ int CheckParentheses(const char* str, int size)
 	return bool == 0;
 }
 
+inline char IsCloser(int point, int x, int y)
+{
+	return NABS(point - x) < NABS(point - y);
+}
+
 int FindCenter(const char* eq, int size)
 {
 	size = (size) * (size != 0) + strlen(eq) * (size == 0);
 	char prior = 2;/* prior 0 for '+' and '-' 1 for '*' and '/' 2 for '^' */
 	char inParenthese = 0;
 	int result = -1;
-	int center = size / 2;
+	int center = size;
 	int i = 1;
 	for (; i < size; ++i)
 	{
@@ -36,7 +36,7 @@ int FindCenter(const char* eq, int size)
 			{
 				continue;
 			}
-			if ((nabs(center - result) > nabs(center - i)) | (prior ^0))/* if i closer to the center than previous result or previous result was either '*' or '/' or '^'  or nothing */
+			if ((IsCloser(center, i, result)) | (prior ^ 0))/* if i closer to the center than previous result or previous result was either '*' or '/' or '^'  or nothing */
 			{
 				result = i;
 			}
@@ -46,7 +46,7 @@ int FindCenter(const char* eq, int size)
 		{
 			if ((eq[i] == '*') | (eq[i] == '/'))
 			{
-				if ((nabs(center - result) > nabs(center - i)))/* if i closer to the center than previous result or previous result was '^' or nothing*/
+				if ((IsCloser(center, i, result)))/* if i closer to the center than previous result or previous result was '^' or nothing*/
 				{
 					result = i;
 				}
@@ -54,7 +54,7 @@ int FindCenter(const char* eq, int size)
 			}
 			if ((eq[i] == '^') & (prior - 1))
 			{
-				if ((nabs(center - result) > nabs(center - i)))/* if i closer to the center than previous result or previous result was '^' or nothing*/
+				if ((IsCloser(center, i, result)))/* if i closer to the center than previous result or previous result was '^' or nothing*/
 				{
 					result = i;
 				}
