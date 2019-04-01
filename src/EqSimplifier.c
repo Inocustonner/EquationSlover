@@ -1,5 +1,4 @@
 #include "../headers/EqSimplifier.h"
-#include <stdio.h>
 float pow(float num, float power)
 {
 	float res = 1;
