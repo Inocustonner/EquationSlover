@@ -26,9 +26,10 @@ int FindCenter(const char* eq, int size)
 	int i = 1;
 	for (; i < size; ++i)
 	{
-		while (inParenthese += (eq[i - 1] == '('))/* if we're in parentheses than skip it but only if eq not starts with them */
+		if (inParenthese += (eq[i - 1] == '('))/* if we're in parentheses than skip it but only if eq not starts with them */
 		{
-			inParenthese -= (eq[i++] == ')');
+			inParenthese -= (eq[i] == ')');
+			continue;
 		}
 		if ((eq[i] == '+') | (eq[i] == '-'))
 		{
@@ -81,7 +82,7 @@ int isNumber(const char* str, int size)
 	if ('-' == str[0]) ++i;
 	for (; i < size; ++i)
 	{
-		if (ISNUM(str[i]) ^ 1)/* if (!ISNUM(str[i])) */
+		if ((ISNUM(str[i]) ^ 1) & (str[i] != '.'))/* if (!ISNUM(str[i])) and str[i] != '.' if number is float */
 		{
 			return 0;
 		}

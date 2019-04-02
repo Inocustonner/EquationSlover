@@ -14,7 +14,7 @@ Implementation file: EqParser.c
 
 #define ISALPHA(x) (((0x41 <= (x)) & ((x) <= 0x5A))\
 					|((0x61 <= (x)) & ((x) <= 0x7A)))
-
+/* abs function for int */
 #define NABS(x) ((~(x) + 1) * ((x) < 0) + (x) * ((x) >= 0))/* if x < 0 abs it else return as it was */
 
 #define ISCLOSER (point, x, y) NABS((point) - (x)) < NABS((point) - (y))/* return true if x closer to the point than y */
@@ -43,8 +43,6 @@ typedef struct Node
 	struct Node* right;/* child right node*/
 }Node;
 
-/* abs for int */
-inline int nabs(int x);
 /* the fuction checks is all parentheses complete */
 int CheckParentheses(const char* str, int size);
 /* the function below finds a center of an equation */

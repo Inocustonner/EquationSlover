@@ -3,6 +3,7 @@ This program, for now, can slove easy linear equations like 3*(10+3)-7. Also the
 english letter, is uppercase or lowercase doesn't matter, but this program can't find roots of equations yet.
 # How it works:
 The program split an equation in a binary tree that presents prime operators and vars. It looks like follow:
+
 3+2*3 ->  +
         /   \
        3     *
