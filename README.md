@@ -4,4 +4,4 @@ english letter, is uppercase or lowercase doesn't matter, but this program can't
 # How it works:
 The program split an equation in a binary tree that presents prime operators and vars.Then it calculate each leaf and gives you the answer.
 # NOTE:
-The program don't supports float numbers yet.
+No support for sin, cos and etc.
