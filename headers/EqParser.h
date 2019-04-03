@@ -63,8 +63,10 @@ Node* CreateNode(Node* parent, ObjectType type, int object);
 #endif
 Node* CreateNode(Node* parent, ObjectType type, float object);
 int isNumber(const char* str, int size);
+#ifdef INTV
 /* string to int */
 int sti(const char* str, int size);
+#endif
 /* string to float */
 float stf(const char* str, int size);
 /* the function below returns parsed equation in binary tree format */

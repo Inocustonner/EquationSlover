@@ -118,10 +118,10 @@ int sti(const char* str, int size)
 	ret -= ret * 2 * ('-' == str[0]);
 	return ret;
 }
-#endif
+
 float stf(const char* str, int size)
 {
-	float res = 0;
+	float res = 0;/* var that contain the result */
 	float exp = 1;
 	int i;
 	int d = 0;
@@ -131,11 +131,26 @@ float stf(const char* str, int size)
 		exp *= 10.f * ('.' != str[i]) + ('.' == str[i]);
 		d += ('.' == str[i])*i;
 	}
-	res /= powf(10.f, size - 1 - d);
+	res /= powf(10.f, (size - 1 - d)*(d != 0));
 	res -= 2.f * res * ('-' == str[0]);
 	return res;
 }
-
+#endif
+float stf(const char* str, int size)
+{
+	float res;
+	res = 0;
+	int i;
+	int d = 0;
+	for (i = size - 1; i >= ('-' == str[0]); --i)
+	{
+		res += powf(10.f, size - i - 1 - (d != 0)) * (str[i] - 0x30) * ('.' != str[i]);
+		d += ('.' == str[i])*i;
+	}
+	res /= powf(10.f, (size - d - 1) * (d != 0));
+	res -= 2.f * res * ('-' == str[0]);
+	return res;
+}
 
 inline Node* CreateNodeFromVal(const char* str, int size)
 {
