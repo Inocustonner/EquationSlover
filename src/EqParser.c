@@ -128,7 +128,7 @@ float stf(const char* str, int size)
 	for (i = size - 1; i >= ('-' == str[0]); --i)
 	{
 		res += exp * (str[i] - 0x30) * ('.' != str[i]);
-		exp *= 10.f * (('.' != str[i])) + ('.' == str[i]);
+		exp *= 10.f * ('.' != str[i]) + ('.' == str[i]);
 		d += ('.' == str[i])*i;
 	}
 	res /= powf(10.f, size - 1 - d);

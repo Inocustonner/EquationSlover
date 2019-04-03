@@ -1,15 +1,4 @@
 #include "../headers/EqSimplifier.h"
-float pow(float num, float power)
-{
-	float res = 1;
-	while (power)
-	{
-		res*=num;
-		--power;
-	}
-	return res;
-}
-
 Result GetResult(Node* node)
 {
 	Result ret;
@@ -49,7 +38,7 @@ Result GetResult(Node* node)
 		}
 		case '^':
 		{
-			ret.num = pow(left.num, right.num);
+			ret.num = powf(left.num, right.num);
 			break;
 		}
 		}
@@ -70,4 +59,12 @@ Result GetResult(Node* node)
 	ret.num = node->object.num;
 	ret.isVar = 0;
 	return ret;
+}
+
+float SloveEq(char* eq, int size)
+{
+	Node* root = ParseEq(NULL, eq, size);
+	float res = GetResult(root).num;
+	DestroyNode(root);
+	return res;
 }

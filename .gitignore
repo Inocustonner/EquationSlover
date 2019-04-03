@@ -2,3 +2,5 @@ EquationSlover.vcxproj
 EquationSlover.vcxproj.filters
 EquationSlover.vcxproj.user
 /Debug
+/bin
+/EquationSlover

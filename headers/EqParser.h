@@ -3,6 +3,7 @@ File : EqParser.h
 Description : This header file contains functions and constants for parsing math equations
 Implementation file: EqParser.c
 */
+#include <math.h>
 #ifndef _EQ_PARSER_H_
 #pragma once
 #define _EQ_PARSER_H_
@@ -24,13 +25,22 @@ typedef enum
 	OPR,/* math operator */
 	VAR /* variable */
 }ObjectType;
-
+#ifdef INTV
 typedef struct
 {
 	union
 	{
 		char sym;/* contains either math sign or var */
 		int num;/* contains number, also all assignments passing through this var */
+	};
+}Object;
+#endif
+typedef struct
+{
+	union
+	{
+		char sym;/* contains either math sign or var */
+		float num;/* contains number, also all assignments passing through this var */
 	};
 }Object;
 
@@ -48,10 +58,15 @@ int CheckParentheses(const char* str, int size);
 /* the function below finds a center of an equation */
 int FindCenter(const char* eq, int size);
 /* the function response for creating new nodes */
+#ifdef INTV
 Node* CreateNode(Node* parent, ObjectType type, int object);
+#endif
+Node* CreateNode(Node* parent, ObjectType type, float object);
 int isNumber(const char* str, int size);
 /* string to int */
 int sti(const char* str, int size);
+/* string to float */
+float stf(const char* str, int size);
 /* the function below returns parsed equation in binary tree format */
 Node* ParseEq(Node* head, const char* eq, int size);
 void DestroyNode(Node* root);

@@ -14,6 +14,6 @@ typedef struct
 	float num;
 	bool isVar;
 }Result;
-float pow(float num, float power);
 Result GetResult(Node* node);
+float SloveEq(char* eq, int size);
 #endif
