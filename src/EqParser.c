@@ -33,7 +33,7 @@ int FindCenter(const char* eq, int size)
 		}
 		if ((eq[i] == '+') | (eq[i] == '-'))
 		{
-			if ((eq[i] == '-') & (ISALNUM(eq[i - 1])^1))/* if '-' is before a number and before '-' not a number of var*/
+			if (('-' == eq[i]) & (ISALNUM(eq[i - 1])^1) & (eq[i - 1] ^ ')'))/* if '-' is before a number and before '-' not a number neither var nor ')' */
 			{
 				continue;
 			}
@@ -64,7 +64,7 @@ int FindCenter(const char* eq, int size)
 	}
 	return result;
 }
-
+#ifdef INTV
 Node* CreateNode(Node* parent, ObjectType type, int object)
 {
 	Node* newnode = malloc(sizeof(Node));
@@ -73,6 +73,20 @@ Node* CreateNode(Node* parent, ObjectType type, int object)
 	newnode->object.num = object;
 	newnode->left = (void*)0;
 	newnode->right = (void*)0;
+	return newnode;
+}
+#endif
+Node* CreateNode(Node* parent, ObjectType type, float object)
+{
+	Node* newnode = malloc(sizeof(Node));
+	newnode->head = parent;
+	newnode->type = type;
+	newnode->left = (void*)0;
+	newnode->right = (void*)0;
+	if (OPR == type)
+		newnode->object.sym = object;
+	else
+		newnode->object.num = object;
 	return newnode;
 }
 
@@ -90,6 +104,7 @@ int isNumber(const char* str, int size)
 	return 1;
 }
 
+#ifdef INTV
 int sti(const char* str, int size)
 {
 	int ret = 0;
@@ -103,12 +118,30 @@ int sti(const char* str, int size)
 	ret -= ret * 2 * ('-' == str[0]);
 	return ret;
 }
+#endif
+float stf(const char* str, int size)
+{
+	float res = 0;
+	float exp = 1;
+	int i;
+	int d = 0;
+	for (i = size - 1; i >= ('-' == str[0]); --i)
+	{
+		res += exp * (str[i] - 0x30) * ('.' != str[i]);
+		exp *= 10.f * (('.' != str[i])) + ('.' == str[i]);
+		d += ('.' == str[i])*i;
+	}
+	res /= powf(10.f, size - 1 - d);
+	res -= 2.f * res * ('-' == str[0]);
+	return res;
+}
+
 
 inline Node* CreateNodeFromVal(const char* str, int size)
 {
 	if (isNumber(str, size))
 	{
-		return CreateNode((void*)0, NUM, sti(str, size));
+		return CreateNode((void*)0, NUM, stf(str, size));
 	}
 	if (ISALPHA(str, size))
 	{
