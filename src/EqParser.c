@@ -76,18 +76,59 @@ Node* CreateNode(Node* parent, ObjectType type, int object)
 	return newnode;
 }
 #endif
-Node* CreateNode(Node* parent, ObjectType type, float object)
+Node* CreateNode(Node* parent, ObjectType type, ...)
 {
 	Node* newnode = malloc(sizeof(Node));
 	newnode->head = parent;
 	newnode->type = type;
 	newnode->left = (void*)0;
 	newnode->right = (void*)0;
-	if (OPR == type)
-		newnode->object.sym = object;
-	else
-		newnode->object.num = object;
+	va_list ap;
+	__crt_va_start(ap, type);
+	switch (type)
+	{
+	case VAR:
+	case OPR:
+		{
+			newnode->object.sym = __crt_va_arg(ap, char);
+			break;
+		}
+	case FNC:
+	case NUM:
+		{
+			newnode->object.num = __crt_va_arg(ap, double);
+			break;
+		}
+	}
+	__crt_va_end(ap);
 	return newnode;
+}
+void print(const char * str, int size)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		printf("%c", str[i]);
+	}
+}
+
+Node* CreateNodeFromFunction(Node* head, const char* eq, const int size, const int pos)
+{
+	Node* newnode = CreateNode(head, FNC, (float)pos);
+	newnode->right = ParseEq(newnode, eq + strlen(functions[pos]), size - strlen(functions[pos]));
+	return newnode;
+}
+
+inline Node* CreateNodeFromVal(const char* str, int size)
+{
+	if (isNumber(str, size))
+	{
+		return CreateNode((void*)0, NUM, stf(str, size));
+	}
+	if (ISALPHA(str, size))
+	{
+		return CreateNode((void*)0, VAR, *str);
+	}
+	return CreateNode((void*)0, OPR, '?');
 }
 
 int isNumber(const char* str, int size)
@@ -152,17 +193,25 @@ float stf(const char* str, int size)
 	return res;
 }
 
-inline Node* CreateNodeFromVal(const char* str, int size)
+int MatchFunction(const char* eq, int size)
 {
-	if (isNumber(str, size))
+	int i = 0;
+	int j;
+	bool done;
+	do
 	{
-		return CreateNode((void*)0, NUM, stf(str, size));
-	}
-	if (ISALPHA(str, size))
-	{
-		return CreateNode((void*)0, VAR, *str);
-	}
-	return CreateNode((void*)0, OPR, '?');
+		done = 1;
+		for (j = 0; (j < size) & (j < strlen(functions[i])); ++j)
+		{
+			if (eq[j] != functions[i][j])
+			{
+				done = 0;
+				break;
+			}
+		}
+		++i;
+	} while ((i < FUNCTIONS_ARRAY_SZ) & (~done & 0b1));
+	return i * done;
 }
 
 Node* ParseEq(Node* head, const char* eq, int size)
@@ -180,6 +229,11 @@ Node* ParseEq(Node* head, const char* eq, int size)
 	int divisor = FindCenter(eq, size);
 	if (-1 == divisor)
 	{
+		/* just using 1 var to avoid cache pollution */
+		if (divisor = MatchFunction(eq, strlen(eq)))
+		{
+			return CreateNodeFromFunction(head, eq, size, divisor - 1);
+		}
 		return CreateNodeFromVal(eq, size);
 	}
 	Node* node = CreateNode(head, OPR, eq[divisor]);

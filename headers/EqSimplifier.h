@@ -8,7 +8,6 @@ Implementation file : EqSimplifier.c
 #ifndef _EQ_SIMPLIFIER_H_
 #pragma once
 #define _EQ_SIMPLIFIER_H_
-typedef char bool;
 typedef struct
 {
 	float num;
