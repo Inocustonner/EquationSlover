@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "headers/EqSimplifier.h"
-#include <math.h>
 int main(int argc, char* argv[])
 {
 	char eq[] = "4*(sqrt(4)+2)";
